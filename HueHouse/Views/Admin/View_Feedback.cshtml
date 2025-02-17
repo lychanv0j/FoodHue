@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; /* Kết nối với layout chung của trang admin */
+}
+
+
+<div class="admin-main">
+    <div class="view-feedback-page">
+        <h1><i class="fas fa-comment-dots"></i> Phản hồi và Góp ý của khách hàng</h1>
+        <p>Quản lý các nội dung phản hồi & góp ý</p>
+
+        <table class="feedback-table">
+            <thead>
+                <tr>
+                    <th>Mã phản hồi</th>
+                    <th>Khách hàng</th>
+                    <th>Ngày gửi</th>
+                    <th>Tiêu đề</th>
+                    <th>Nội dung</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dữ liệu phản hồi sẽ được render tại đây -->
+                <tr>
+                    <td>#001</td>
+                    <td>Nguyễn Thị B</td>
+                    <td>02/01/2025</td>
+                    <td>Phản hồi về dịch vụ</td>
+                    <td>Hài lòng về chất lượng món ăn, nhưng cần cải thiện thời gian giao hàng</td>
+                    <td>Mới</td>
+                    <td><a href="#">Xem chi tiết</a> | <a href="#">Trả lời</a></td>
+                </tr>
+                <!-- Dữ liệu phản hồi khác -->
+            </tbody>
+        </table>
+    </div>
+</div>

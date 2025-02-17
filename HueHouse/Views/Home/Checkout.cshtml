@@ -1,0 +1,102 @@
+﻿@model HueHouse.Models.Checkout
+
+@{
+    ViewBag.Title = "Thông Tin Đặt Hàng";
+}
+
+<!-- Container chứa toàn bộ trang checkout -->
+<div class="container">
+
+    <!-- Khối checkout-page chứa thông tin đặt hàng -->
+    <div class="checkout-page">
+
+        <!-- Tiêu đề chính của trang -->
+        <h1>THÔNG TIN ĐẶT HÀNG</h1>
+
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        @if (TempData["ErrorMessage"] != null) // Kiểm tra nếu có thông báo lỗi
+        {
+            <div class="error-message" style="color: red; margin: 10px 0;">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <!-- Thông tin người dùng -->
+        <div class="user-information">
+
+            <!-- Tiêu đề cho phần thông tin người dùng -->
+            <h2>Thông Tin Liên Hệ</h2>
+
+            <!-- Form gửi thông tin người dùng -->
+            <form method="post" action="@Url.Action("SubmitOrder", "Home")">
+                <!-- Gửi thông tin đặt hàng tới action "SubmitOrder" trong controller "Home" -->
+                <!-- Nhóm thông tin họ và tên -->
+                <div class="form-group">
+                    <label for="FullName">Họ và Tên:</label> <!-- Nhãn cho trường họ và tên -->
+                    <input type="text" id="FullName" name="FullName" class="form-control" value="@Model.User.FullName" required /> <!-- Trường nhập liệu cho họ và tên -->
+                </div>
+
+                <!-- Nhóm thông tin số điện thoại -->
+                <div class="form-group">
+                    <label for="Phone">Số Điện Thoại:</label> <!-- Nhãn cho trường số điện thoại -->
+                    <input type="text" id="Phone" name="Phone" class="form-control" value="@Model.User.Phone" required /> <!-- Trường nhập liệu cho số điện thoại -->
+                </div>
+
+                <!-- Nhóm thông tin địa chỉ giao hàng -->
+                <div class="form-group">
+                    <label for="Address">Địa Chỉ Giao Hàng:</label> <!-- Nhãn cho trường địa chỉ -->
+                    <input type="text" id="Address" name="Address" class="form-control" value="@Model.User.Address" required /> <!-- Trường nhập liệu cho địa chỉ -->
+                </div>
+
+                <!-- Nhóm thông tin phương thức thanh toán -->
+                <div class="form-group">
+                    <label for="PaymentMethod">Phương Thức Thanh Toán:</label>
+                    <select name="PaymentMethod" id="PaymentMethod" class="form-control" required>
+                        <!-- Dropdown để chọn phương thức thanh toán -->
+                        <option value="COD" @(Model.SelectedPaymentMethod == "COD" ? "selected" : "")>Thanh toán khi nhận hàng (COD)</option> <!-- Phương thức COD -->
+                        <option value="BankTransfer" @(Model.SelectedPaymentMethod == "BankTransfer" ? "selected" : "")>Thanh toán qua ngân hàng</option> <!-- Phương thức chuyển khoản -->
+                        <!-- Phương thức Chuyển Khoản -->
+                    </select>
+                </div>
+
+                <!-- Thông tin giỏ hàng -->
+                <!-- Tiêu đề cho phần giỏ hàng -->
+                <h3>Thông Tin Giỏ Hàng</h3>
+
+                <!-- Bảng hiển thị thông tin giỏ hàng -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Hình ảnh</th> <!-- Cột Hình ảnh -->
+                            <th>Tên Sản Phẩm</th> <!-- Cột Tên Sản Phẩm -->
+                            <th>Số Lượng</th> <!-- Cột Số Lượng -->
+                            <th>Đơn Giá</th> <!-- Cột Đơn Giá -->
+                            <th>Tổng Tiền</th> <!-- Cột Tổng Tiền -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems) // Duyệt qua từng sản phẩm trong giỏ hàng //
+                        {
+                            <tr>
+                                <td><img src="~/@item.ProductImage" alt="@item.ProductName" class="product-img" /> </td> <!-- Hình ảnh sản phẩm -->
+                                <td>@item.ProductName</td> <!-- Tên sản phẩm -->
+                                <td>@item.Quantity</td> <!-- Số lượng -->
+                                <td>@string.Format("{0:#,##0} VNĐ", item.Price)</td> <!-- Đơn giá, định dạng theo kiểu VNĐ -->
+                                <td>@string.Format("{0:#,##0} VNĐ", item.Quantity * item.Price)</td> <!-- Tổng tiền, tính bằng số lượng * đơn giá -->
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Tóm tắt giỏ hàng và tổng tiền -->
+                <div class="cart-summary cart-summary-checkout">
+
+                    <!-- Hiển thị tổng cộng tiền của giỏ hàng -->
+                    <h4>Tổng Cộng: @string.Format("{0:#,##0} VNĐ", Model.CartItems.Sum(i => i.Quantity * i.Price))</h4> <!-- Tổng tiền giỏ hàng -->
+                    <!-- Nút xác nhận đặt hàng -->
+                    <button type="submit" class="btn btn-confirm">Xác Nhận Đặt Hàng</button> <!-- Nút gửi form và xác nhận đặt hàng -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

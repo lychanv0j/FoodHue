@@ -1,0 +1,101 @@
+﻿@model HueHouse.Models.ProductDetails
+
+@{
+    ViewBag.Title = "Chi Tiết Sản Phẩm";
+}
+
+
+<div class="main">
+    <div class="product-details-page">
+
+        <!-- Tiêu đề của trang -->
+        <h1>Chi Tiết Sản Phẩm</h1>
+
+        <div class="details-container">
+
+            <!-- Cột hiển thị hình ảnh sản phẩm -->
+            <div class="product-image-container">
+
+                <!-- Hiển thị hình ảnh sản phẩm -->
+                <img src="/@Model.Products.ProductImage" alt="@Model.Products.ProductName" class="product-image" />
+            </div>
+
+            <!-- Cột hiển thị thông tin chi tiết sản phẩm -->
+            <div class="details-info">
+
+                <!-- Tên sản phẩm -->
+                <h2 class="product-name">@Model.Products.ProductName</h2>
+
+                <!-- Giá sản phẩm -->
+                <p class="price">
+                    <strong>Giá: </strong>
+                    <!-- Định dạng giá sản phẩm theo kiểu tiền tệ VNĐ -->
+                    <strong>@string.Format("{0:#,##0} VNĐ", Model.Products.Price)</strong>
+                </p>
+
+                <!-- Trạng thái sản phẩm -->
+                <p class="status">
+                    <strong>Trạng thái: </strong>@Model.Status
+                </p>
+
+                <!-- Mô tả sản phẩm -->
+                <p class="description">
+                    <strong>Mô tả: </strong>@Model.Description
+                </p>
+
+                <!-- Ngày tạo và cập nhật -->
+                <div class="date-info">
+                    <p class="created-at">
+                        <strong>Ngày tạo: </strong>
+                        <!-- Hiển thị ngày tạo của sản phẩm, định dạng dd/MM/yyyy -->
+                        <span>@Model.CreatedAt.ToString("dd/MM/yyyy")</span>
+                    </p>
+                    <p class="updated-at">
+                        <strong>Ngày cập nhật: </strong>
+                        <!-- Hiển thị ngày cập nhật của sản phẩm, định dạng dd/MM/yyyy -->
+                        <span>@Model.UpdatedAt.ToString("dd/MM/yyyy")</span>
+                    </p>
+                </div>
+
+                <!-- Hiển thị số lượng sản phẩm -->
+                <div class="quantity">
+                    <p><strong>Số lượng:</strong></p>
+
+                    <!-- Bộ điều chỉnh số lượng (tăng/giảm) -->
+                    <div class="quantity-btn-container">
+                        <button type="button" class="quantity-btn minus">-</button>
+                        <!-- Hiển thị số lượng hiện tại -->
+                        <span id="quantity-btn">1</span>
+                        <button type="button" class="quantity-btn plus">+</button>
+                    </div>
+
+                    <!-- Hiển thị số lượng sản phẩm có sẵn trong kho -->
+                    <span class="available">(@Html.DisplayFor(model => model.Quantity) sản phẩm có sẵn)</span>
+                </div>
+
+                <!-- Thông báo lỗi (nếu số lượng sản phẩm vượt mức cho phép) -->
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="error-message">
+                        <!-- Hiển thị thông báo lỗi -->
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <!-- Nút thêm sản phẩm vào giỏ hàng -->
+                <form action="@Url.Action("AddToCart", "Home")" method="post">
+                    <!-- Tạo token bảo mật CSRF -->
+                    @Html.AntiForgeryToken()
+
+                    <!-- Gửi thông tin ProductID của sản phẩm -->
+                    <input type="hidden" name="productId" value="@Model.ProductID" />
+                    <!-- Gửi số lượng sản phẩm mặc định (ban đầu là 1) -->
+                    <input type="hidden" id="quantity" name="quantity" value="1" />
+
+                    <!-- Nút thực hiện thêm vào giỏ hàng -->
+                    <button type="submit" class="action-btn">Thêm vào giỏ hàng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

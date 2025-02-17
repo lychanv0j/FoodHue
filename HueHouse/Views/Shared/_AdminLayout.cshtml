@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null; /* Tắt layout chung cho trang này */
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title Trang Quản Lý - Admin</title> <!-- Tiêu đề trang web -->
+    <link rel="stylesheet" href="~/Content/admin_main.css"> <!-- Liên kết đến tệp CSS chính -->
+    <script src="~/Scripts/admin.js" defer></script> <!-- Liên kết đến tệp JavaScript chính -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" /> <!-- Thêm Font Awesome cho các biểu tượng -->
+</head>
+<body>
+
+    <!-- Thẻ chứa toàn bộ trang Admin -->
+    <div class="admin-container">
+
+        <!-- Sidebar (Thanh điều hướng bên trái) -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-cogs"></i> HueHouse - Admin</h2> <!-- Tiêu đề của Sidebar -->
+            </div>
+            <nav class="sidebar-middle">
+                <ul>
+                    <!-- Liên kết đến các trang chức năng trong hệ thống -->
+                    <li><a href="@Url.Action("DashBoard", "Admin")"><i class="fas fa-home"></i> Trang Chủ</a></li> <!-- Trang chủ của Admin -->
+                    <li><a href="@Url.Action("Manage_Users", "Admin")"><i class="fas fa-users"></i> Quản lý người dùng</a></li> <!-- Quản lý người dùng -->
+                    <li><a href="@Url.Action("Manage_Orders", "Admin")"><i class="fas fa-shopping-cart"></i> Quản lý đơn hàng</a></li> <!-- Quản lý đơn hàng -->
+                    <li><a href="@Url.Action("Manage_Products", "Admin")"><i class="fas fa-box-open"></i> Quản lý sản phẩm</a></li> <!-- Quản lý sản phẩm -->
+                    <li><a href="@Url.Action("View_Feedback", "Admin")"><i class="fas fa-comment-dots"></i> Phản hồi và góp ý</a></li> <!-- Xem phản hồi và góp ý -->
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="@Url.Action("Logout", "Home")"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a> <!-- Liên kết để đăng xuất -->
+            </div>
+        </aside>
+
+        <!-- Main Content (Nội dung chính) -->
+        <main class="admin-main">
+            @RenderBody() <!-- Chỗ này sẽ render nội dung của từng trang cụ thể -->
+        </main>
+    </div>
+</body>
+</html>

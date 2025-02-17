@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Liên Hệ & Góp Ý";
+}
+<div class="main">
+    <div class="contact-page">
+
+        <!-- Tiêu đề chính của trang -->
+        <h1>LIÊN HỆ HOẶC GÓP Ý VỚI CHÚNG TÔI</h1>
+
+        <!-- Phần thông tin liên hệ: hotline và email -->
+        <div class="contact-details">
+            <p>
+                Hotline: <strong>0973283431 | 0905207922</strong>
+            </p>
+            <p>
+                Email: <strong>huehouse511@gmail.com</strong>
+            </p>
+        </div>
+
+        <!-- Phần nội dung chính, bao gồm form và bản đồ -->
+        <div class="contact-main">
+
+            <!-- Phần form gửi thông tin liên hệ -->
+            <div class="contact-form">
+
+                <h2>GỬI PHẢN HỒI ĐẾN CHÚNG TÔI</h2>
+                <form action="@Url.Action(" Contact", "Home" )" method="post">
+
+                    <!-- Nhóm chọn loại phản hồi (liên hệ hoặc góp ý) -->
+                    <div class="contact-group">
+                        <label for="contactType">Loại phản hồi:</label>
+                        <select name="contactType" id="contactType" required>
+                            <option value="Contact">Liên hệ</option>
+                            <option value="Feedback">Góp ý</option>
+                        </select>
+                    </div>
+
+                    <!-- Nhập họ và tên -->
+                    <div class="contact-group">
+                        <label for="fullName">Họ tên:</label>
+                        <input type="text" name="fullName" id="fullName" placeholder="Nhập họ và tên của bạn..." required />
+                    </div>
+
+                    <!-- Nhập email -->
+                    <div class="contact-group">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" placeholder="Nhập email của bạn..." required />
+                    </div>
+
+                    <!-- Nhập số điện thoại -->
+                    <div class="contact-group">
+                        <label for="phone">Số điện thoại:</label>
+                        <input type="tel" name="phone" id="phone" placeholder="Nhập số điện thoại của bạn..." required />
+                    </div>
+
+                    <!-- Nhập nội dung phản hồi -->
+                    <div class="contact-group">
+                        <label for="message">Nội dung:</label>
+                        <textarea name="message" id="message" rows="4" placeholder="Nhập nội dung mà bạn muốn gửi..." required></textarea>
+                    </div>
+
+                    <!-- Nút gửi thông tin -->
+                    <div class="contact-group">
+                        <button type="submit">Gửi thông tin</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Phần bản đồ Google Maps -->
+            <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d979.8148392069804!2d106.67975556955028!3d10.791437116722896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528d4c16f9869%3A0xa4543a64a3d8ae96!2zNS8xMUMgxJAuIEzDqiBRdcO9IMSQw7RuLCBQaMaw4budbmcgMTQsIFBow7ogTmh14bqtbiwgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1733200971360!5m2!1svi!2s"
+                        width="700"
+                        height="430"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+</div>

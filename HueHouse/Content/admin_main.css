@@ -1,0 +1,723 @@
+﻿/* Cấu hình chung */
+body, html {
+    margin: 0; /* Loại bỏ khoảng cách mặc định xung quanh trang */
+    padding: 0; /* Loại bỏ padding mặc định */
+    overflow-x: hidden; /* Ngăn ngừa cuộn ngang nếu nội dung vượt quá chiều rộng */
+    font-family: 'Times New Roman'; /* Đặt phông chữ mặc định */
+    scroll-behavior: smooth; /* Tạo hiệu ứng cuộn mượt */
+    background-color: #f8f9fa; /* Màu nền sáng nhẹ */
+    color: #333; /* Màu chữ tối, dễ đọc */
+}
+
+.admin-container {
+    display: flex; /* Bố cục theo chiều ngang: Sidebar và nội dung chính */
+    min-height: 150vh; /* Chiều cao tối thiểu, đảm bảo cuộn dọc thoải mái */
+}
+
+/* Sidebar (Thanh điều hướng bên trái) */
+.admin-sidebar {
+    width: 250px; /* Độ rộng cố định của Sidebar */
+    background-color: #1e293b; /* Màu nền tối hiện đại */
+    color: #f1f5f9; /* Màu chữ sáng, tương phản với nền */
+    display: flex; /* Bố cục Sidebar theo chiều dọc */
+    flex-direction: column; /* Sắp xếp các phần tử từ trên xuống dưới */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng cho Sidebar */
+    position: fixed; /* Sidebar cố định khi cuộn trang */
+    height: 100vh; /* Chiều cao đầy đủ của màn hình */
+}
+
+.sidebar-header {
+    text-align: center; /* Căn giữa nội dung tiêu đề */
+    padding: 20px; /* Khoảng cách bên trong tiêu đề */
+    background-color: #0f172a; /* Màu nền đậm hơn cho phần tiêu đề */
+    border-bottom: 1px solid #475569; /* Đường viền dưới phân cách với menu */
+}
+
+    .sidebar-header h2 {
+        margin: 0; /* Loại bỏ khoảng cách trên và dưới của tiêu đề */
+        font-size: 1.5rem; /* Kích thước chữ tiêu đề */
+        color: #38bdf8; /* Màu xanh nhạt bắt mắt */
+    }
+
+        .sidebar-header h2 i {
+            margin-right: 10px; /* Khoảng cách giữa biểu tượng và văn bản */
+        }
+
+.sidebar-middle {
+    flex-grow: 1; /* Phần menu chiếm toàn bộ không gian còn lại của Sidebar */
+    padding: 20px 0; /* Khoảng cách trên và dưới của menu */
+}
+
+    .sidebar-middle ul {
+        list-style: none; /* Loại bỏ dấu đầu dòng cho danh sách */
+        padding: 0; /* Loại bỏ khoảng cách bên trong danh sách */
+    }
+
+        .sidebar-middle ul li {
+            margin-bottom: 15px; /* Khoảng cách giữa các mục menu */
+        }
+
+            .sidebar-middle ul li a {
+                display: flex; /* Đặt nội dung liên kết theo chiều ngang */
+                align-items: center; /* Căn giữa biểu tượng và văn bản theo trục dọc */
+                padding: 10px 20px; /* Khoảng cách bên trong của liên kết */
+                color: #f1f5f9; /* Màu chữ sáng */
+                text-decoration: none; /* Loại bỏ gạch chân liên kết */
+                font-size: 1rem; /* Kích thước chữ của menu */
+                border-radius: 8px; /* Bo góc cho nền liên kết */
+                transition: all 0.3s ease; /* Hiệu ứng chuyển động mượt mà khi hover */
+            }
+
+                .sidebar-middle ul li a:hover {
+                    background-color: #334155; /* Màu nền khi hover */
+                    color: #38bdf8; /* Màu chữ khi hover */
+                    transform: scale(0.9); /* Phóng to nhẹ liên kết khi hover */
+                }
+
+                .sidebar-middle ul li a i {
+                    margin-right: 10px; /* Khoảng cách giữa biểu tượng và văn bản */
+                    font-size: 1.2rem; /* Kích thước biểu tượng */
+                }
+
+.sidebar-footer {
+    padding: 15px; /* Khoảng cách bên trong footer */
+    text-align: center; /* Căn giữa nội dung footer */
+    background-color: #0f172a; /* Màu nền tối cho phần footer */
+    border-top: 1px solid #475569; /* Đường viền trên phân cách với menu */
+}
+
+    .sidebar-footer a {
+        color: #ef4444; /* Màu đỏ nổi bật cho liên kết Đăng xuất */
+        text-decoration: none; /* Loại bỏ gạch chân liên kết */
+        font-weight: bold; /* Chữ đậm để nhấn mạnh liên kết */
+        transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu mượt mà khi hover */
+    }
+
+        .sidebar-footer a:hover {
+            color: #dc2626; /* Màu đỏ đậm hơn khi hover */
+        }
+
+/* Main Content */
+.admin-main {
+    margin-left: 125px; /* Khoảng trống để không đè lên Sidebar */
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    flex-grow: 1;
+    overflow-y: auto; /* Cuộn mượt */
+    min-height: 100vh;
+}
+
+
+
+/* CSS cho trang chủ của Admin và các mục bên trong */
+/* Tiêu đề của trang chủ */
+.dashboard-page h1 {
+    font-size: 36px; /* Kích thước chữ tiêu đề */
+    font-weight: bolder;
+    color: #333; /* Màu chữ đen nhạt cho tiêu đề */
+    line-height: 1.6; /* Khoảng cách giữa các dòng */
+    margin-bottom: -20px;
+    margin-top: auto;
+}
+
+    /* Thông điệp chào mừng */
+    .dashboard-page p {
+        font-size: 20px; /* Kích thước chữ chào mừng */
+        color: #555; /* Màu chữ nhạt hơn */
+        font-weight: normal;
+        display: block;
+        margin-bottom: 35px;
+    }
+
+/* Thống kê Dashboard */
+.dashboard-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Khoảng cách giữa các mục thống kê */
+}
+
+    /* Thẻ thống kê */
+    .stat-card {
+        background-color: #fff; /* Màu nền của thẻ thống kê */
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng */
+        width: 22%; /* Đặt độ rộng thẻ */
+        text-align: center;
+        padding: 20px;
+        transition: transform 0.3s; /* Hiệu ứng khi hover */
+    }
+        
+        .stat-card-icon {
+            font-size: 2rem; /* Kích thước biểu tượng */
+            color: #5b6e6e; /* Màu biểu tượng */
+            margin-bottom: 15px;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px); /* Hiệu ứng dịch chuyển nhẹ khi hover */
+        }
+
+        /* Nội dung của thẻ thống kê */
+        .stat-card-content h3 {
+            font-size: 1.5rem; /* Kích thước chữ cho số liệu */
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333; /* Màu chữ số liệu */
+            color: #2ecc71;
+        }
+
+        .stat-card-content p {
+            font-size: 1rem; /* Kích thước chữ mô tả */
+            color: #777; /* Màu chữ nhạt cho mô tả */
+        }
+
+/* Hoạt động gần đây */
+.recent-activity {
+    margin-top: 50px;
+}
+
+    .recent-activity h2 {
+        font-size: 1.8rem; /* Kích thước chữ cho tiêu đề hoạt động */
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+        /* Danh sách hoạt động */
+        .activity-list {
+            background-color: #f9f9f9; /* Màu nền nhạt cho danh sách */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Hiệu ứng bóng nhẹ */
+        }
+
+        /* Mục hoạt động */
+        .activity-item {
+            background-color: #fff; /* Màu nền cho mỗi mục hoạt động */
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng nhẹ */
+        }
+
+            .activity-item:last-child {
+                margin-bottom: 0; /* Loại bỏ margin-bottom cho mục cuối cùng */
+            }
+
+            .activity-item p {
+                font-size: 1rem;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .activity-item small {
+                font-size: 0.85rem; /* Kích thước chữ nhỏ cho thời gian hoạt động */
+                color: #777; /* Màu chữ nhạt cho thời gian */
+            }
+
+
+
+/* CSS cho trang quản lý người dùng và các mục bên trong */
+/* Tiêu đề chính của trang */
+.manage-users-page h1 {
+    font-size: 36px; /* Kích thước chữ tiêu đề */
+    font-weight: bolder;
+    color: #333; /* Màu chữ đen nhạt cho tiêu đề */
+    line-height: 1.6; /* Khoảng cách giữa các dòng */
+    margin-bottom: -20px;
+    margin-top: auto;
+}
+
+    /* Tiêu đề phụ */
+    .manage-users-page p {
+        font-size: 20px; /* Kích thước chữ chào mừng */
+        color: #555; /* Màu chữ nhạt hơn */
+        font-weight: normal;
+        display: block;
+        margin-bottom: 35px;
+    }
+
+/* Container chung cho nút thêm người dùng và thanh tìm kiếm */
+.user-actions {
+    display: flex;
+    justify-content: space-between; /* Đảm bảo các phần tử được phân bố đều */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin-top: 30px;
+}
+
+    /* Nút thêm người dùng */
+    .add-user-btn .btn {
+        background-color: #007bff;
+        color: white;
+        padding: 14px 30px;
+        border-radius: 50px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+
+        .add-user-btn .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .add-user-btn .btn i {
+            margin-right: 10px;
+        }
+
+    /* Thanh tìm kiếm */
+    .search-user {
+        display: flex; /* Giữ các phần tử bên trong thanh tìm kiếm trên cùng một hàng */
+        align-items: center; /* Căn giữa các phần tử */
+        gap: 15px; /* Khoảng cách giữa thanh tìm kiếm và nút tìm kiếm */
+    }
+
+        .search-user input {
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 250px;
+            transition: border-color 0.3s ease;
+        }
+
+            .search-user input:focus {
+                border-color: #007bff;
+                outline: none;
+            }
+
+        .search-user button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .search-user button:hover {
+                background-color: #218838;
+            }
+
+/* Bảng danh sách người dùng */
+.user-table-container {
+    margin-top: 30px;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .user-table th, .user-table td {
+        padding: 18px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .user-table th {
+        background-color: #f8f9fa;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .user-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .user-table td button {
+        padding: 8px 16px;
+        font-size: 14px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
+
+        .user-table td button:hover {
+            opacity: 0.9;
+        }
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .modal.hidden {
+        display: none;
+    }
+
+.modal-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+    .modal-actions button {
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 45%;
+    }
+
+    .modal-actions .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .modal-actions .btn-success:hover {
+            background-color: #218838;
+        }
+
+    .modal-actions .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+        .modal-actions .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+/* Không có dữ liệu */
+.no-data {
+    font-size: 18px;
+    color: #666;
+}
+
+
+
+/* CSS cho trang quản lý đơn hàng và các mục bên trong */
+/* Tiêu đề chính của trang */
+.manage-orders-page h1 {
+    font-size: 36px; /* Kích thước chữ tiêu đề */
+    font-weight: bolder;
+    color: #333; /* Màu chữ đen nhạt cho tiêu đề */
+    line-height: 1.6; /* Khoảng cách giữa các dòng */
+    margin-bottom: -20px;
+    margin-top: auto;
+}
+
+    /* Tiêu đề phụ */
+    .manage-orders-page p {
+        font-size: 20px; /* Kích thước chữ chào mừng */
+        color: #555; /* Màu chữ nhạt hơn */
+        font-weight: normal;
+        display: block;
+        margin-bottom: 35px;
+    }
+
+/* Bảng danh sách người dùng */
+.order-table-container {
+    margin-top: 30px;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .order-table th, .order-table td {
+        padding: 18px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .order-table th {
+        background-color: #f8f9fa;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .order-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+/* Trạng thái */
+select[name='newStatus'] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f1f1f1;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    select[name='newStatus']:hover {
+        background-color: #e0f7e0;
+    }
+
+/* Nút hành động */
+button.btn-info {
+    background-color: #17a2b8;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    button.btn-info:hover {
+        background-color: #138496;
+    }
+
+
+
+/* CSS cho trang quản lý sản phẩm và các nội dung bên trong */
+/* Tiêu đề chính của trang */
+.manage-products-page h1 {
+    font-size: 36px; /* Kích thước chữ tiêu đề */
+    font-weight: bolder;
+    color: #333; /* Màu chữ đen nhạt cho tiêu đề */
+    line-height: 1.6; /* Khoảng cách giữa các dòng */
+    margin-bottom: -20px;
+    margin-top: auto;
+}
+
+    /* Tiêu đề phụ */
+    .manage-products-page p {
+        font-size: 20px; /* Kích thước chữ chào mừng */
+        color: #555; /* Màu chữ nhạt hơn */
+        font-weight: normal;
+        display: block;
+        margin-bottom: 35px;
+    }
+
+/* Phần thêm sản phẩm mới */
+.add-product {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    max-width: 100%;
+    min-height:  50%;
+}
+
+    .add-product h1 {
+        text-align: center;
+        font-size: 30px;
+        color: #4CAF50; /* Xanh lá cây dịu mắt */
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    /* Cải tiến các label */
+    .add-product .form-group {
+        display: flex;
+        flex-wrap: wrap; /* Cho phép các phần tử trong form group có thể chuyển sang hàng mới nếu cần */
+        margin-bottom: 20px;
+        text-align: center;
+        justify-content: center;
+        align-items: center; /* Canh giữa các phần tử theo chiều dọc */
+    }
+
+        .add-product .form-group label {
+            font-weight: bold;
+            color: #555; /* Màu xám tối cho label */
+            width: 120px; /* Cố định chiều rộng của label */
+            margin-right: 15px; /* Khoảng cách giữa label và input */
+            text-align: center; /* Căn phải cho label */
+        }
+
+    .add-product .form-control {
+        width: 500px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease-in-out;
+        margin-bottom: 0; /* Loại bỏ margin dưới input */
+        background-color: #f9f9f9; /* Màu nền input nhẹ nhàng */
+    }
+
+    .add-product .form-control-category {
+        width: 522px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease-in-out;
+        margin-bottom: 0; /* Loại bỏ margin dưới input */
+        background-color: #f9f9f9; /* Màu nền input nhẹ nhàng */
+    }
+
+    .add-product .form-control:focus {
+        border-color: #28a745;
+        outline: none;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.4); /* Tạo hiệu ứng shadow nhẹ */
+    }
+
+    .add-product .form-control-category:focus {
+        border-color: #28a745;
+        outline: none;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.4); /* Tạo hiệu ứng shadow nhẹ */
+    }
+
+    /* Nút submit */
+    .add-product button {
+        display: block;
+        margin: 20px auto; /* Căn giữa nút */
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        width: auto; /* Cho phép nút có chiều rộng tự động */
+    }
+
+        .add-product button:hover {
+            background-color: #45a049; /* Màu nút khi hover */
+            transform: scale(1.05);
+        }
+
+/* Bảng sản phẩm */
+.product-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+    .product-table-container h1 {
+        color: #2d2d2d; /* Màu xám đậm cho tiêu đề */
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+    .product-table thead {
+        background-color: #4CAF50; /* Xanh lá cây tươi sáng */
+        color: #fff;
+        text-align: center;
+    }
+
+    .product-table th,
+    .product-table td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .product-table tbody tr:hover {
+        background-color: #e0f7e0; /* Xanh lá mạ nhạt khi hover */
+        transition: background-color 0.3s ease;
+    }
+
+    .product-table td img {
+        max-width: 60px;
+        max-height: 60px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+/* Các nút hành động */
+.btn-success,
+.btn-danger {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-success {
+    background-color: #28a745; /* Màu xanh lá cây tươi sáng */
+    border-color: #28a745;
+}
+
+    .btn-success:hover {
+        background-color: #218838; /* Xanh lá đậm khi hover */
+        transform: scale(1.1);
+    }
+
+.btn-danger {
+    background-color: #dc3545; /* Đỏ nổi bật */
+    border-color: #dc3545;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333; /* Đỏ đậm khi hover */
+        transform: scale(1.1);
+    }
+
+/* Cập nhật số lượng */
+.product-table input[type='number'] {
+    width: 80px;
+    padding: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #f8f9fa; /* Nền nhẹ cho input */
+}
+
+    .product-table input[type='number']:focus {
+        border-color: #28a745; /* Xanh lá cây khi focus */
+        box-shadow: 0 0 5px rgba(40, 167, 69, 0.4);
+        outline: none;
+    }
+
+
+
+/* CSS cho trang quản lý phản hồi & góp ý và các nội dung bên trong */
+/* Tiêu đề chính của trang */
+.view-feedback-page h1 {
+    font-size: 36px; /* Kích thước chữ tiêu đề */
+    font-weight: bolder;
+    color: #333; /* Màu chữ đen nhạt cho tiêu đề */
+    line-height: 1.6; /* Khoảng cách giữa các dòng */
+    margin-bottom: -20px;
+    margin-top: auto;
+}
+
+    /* Tiêu đề phụ */
+    .view-feedback-page p {
+        font-size: 20px; /* Kích thước chữ chào mừng */
+        color: #555; /* Màu chữ nhạt hơn */
+        font-weight: normal;
+        display: block;
+        margin-bottom: 35px;
+    }

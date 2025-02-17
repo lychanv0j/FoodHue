@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Xác Nhận Đặt Hàng";
+
+
+    // Lấy thông tin người dùng, đơn hàng, chi tiết đơn hàng, thanh toán và sản phẩm từ ViewData
+
+    var user = (HueHouse.Models.Users)ViewData["User"];  // Thông tin người dùng
+    var order = (HueHouse.Models.Orders)ViewData["Order"];  // Thông tin đơn hàng
+    var orderDetails = (List<HueHouse.Models.OrderDetails>)ViewData["OrderDetails"];  // Chi tiết đơn hàng
+    var payment = (HueHouse.Models.Payments)ViewData["Payment"];  // Thông tin thanh toán
+    var products = (List<HueHouse.Models.Products>)ViewData["Products"];  // Danh sách sản phẩm
+}
+
+
+        <div class="container">
+            <div class="orderconfirm-page">
+
+                <!-- Thông báo đặt hàng thành công -->
+                @if (TempData["SuccessMessage"] != null)
+                {
+                <div class="success-message" style="font-size: 36px; font-weight: 700; color: #FF5722; text-align: center; margin-bottom: 25px; margin-top: 8px; letter-spacing: 1px;">
+                    @TempData["SuccessMessage"]
+                </div>
+                }
+
+                <p>
+                    Cảm ơn bạn đã đặt hàng tại <strong>Ẩm Thực Huế - HueHouse</strong>.
+                    <br />
+
+                    <!-- Đường dẫn xem chi tiết đơn hàng -->
+                    <!-- Liên kết "Xem chi tiết đơn hàng" sẽ mở modal thông tin chi tiết đơn hàng -->
+                    Bạn có thể tiếp tục mua sắm hoặc xem lại chi tiết thông tin đơn hàng đã đặt <a href="#" id="view-order-details" class="link-details">tại đây.</a>
+                </p>
+
+
+                <!-- Button hành động -->
+                <div class="actions">
+
+                    <!-- Link dẫn đến trang sản phẩm để tiếp tục mua sắm -->
+                    <a href="@Url.Action("Product", "Home" )" class="btn btn-primary">Tiếp Tục Mua Sắm</a>
+
+                    <!-- Link dẫn đến trang lịch sử mua hàng của người dùng -->
+                    <a href="@Url.Action("Order_History", "Home" )" class="btn btn-success">Xem Lịch Sử Mua Hàng</a>
+                </div>
+            </div>
+
+
+            <!-- Modal chứa thông tin chi tiết đơn hàng -->
+            <div id="order-details-modal" class="modal">
+                <div class="modal-content">
+
+                    <!-- Nút đóng modal -->
+                    <span class="close-btn">&times;</span>
+
+                    <!-- Tiêu đề của modal chi tiết đơn hàng -->
+                    <h2>Thông Tin Chi Tiết Đơn Hàng</h2>
+
+                    <!-- Phần thông tin liên hệ của khách hàng -->
+                    <div class="info-details">
+                        <h3>Thông Tin Liên Hệ</h3>
+                        <p><strong>Tên Khách Hàng:</strong> @user.FullName</p> <!-- Tên khách hàng -->
+                        <p><strong>Số Điện Thoại:</strong> @user.Phone</p> <!-- Số điện thoại khách hàng -->
+                        <p><strong>Địa Chỉ:</strong> @user.Address</p> <!-- Địa chỉ của khách hàng -->
+                        <p><strong>Ngày Đặt Hàng:</strong> @order.OrderDate.ToString("dd/MM/yyyy HH:mm")</p> <!-- Ngày giờ đặt hàng -->
+                    </div>
+
+                    <!-- Phần chi tiết các sản phẩm đã đặt -->
+                    <div class="order-details">
+                        <h3>Sản Phẩm Đặt Mua</h3>
+                        @foreach (var detail in orderDetails)  // Lặp qua danh sách chi tiết đơn hàng
+                        {
+                        var product = products.FirstOrDefault(p => p.ProductID == detail.ProductID);  // Tìm sản phẩm tương ứng với ID trong chi tiết đơn hàng
+                        if (product != null)  // Kiểm tra nếu sản phẩm tồn tại
+                        {
+                        <div class="product">
+                            <p><strong>Tên Sản Phẩm:</strong> @product.ProductName</p>  <!-- Tên sản phẩm -->
+                            <p><strong>Số Lượng:</strong> @detail.Quantity</p>  <!-- Số lượng sản phẩm đã đặt -->
+                            <p><strong>Đơn Giá:</strong> @String.Format("{0:#,##0} VNĐ", detail.Price)</p>  <!-- Đơn giá của sản phẩm -->
+                        </div>
+                        }
+                        }
+                    </div>
+
+                    <!-- Phần thông tin thanh toán -->
+                    <div class="payment-details">
+                        <h3>Thông Tin Thanh Toán</h3>
+                        <p><strong>Tổng Số Tiền:</strong> @String.Format("{0:#,##0} VNĐ", order.TotalAmount)</p>  <!-- Tổng số tiền đơn hàng -->
+                        <p><strong>Phương Thức Thanh Toán:</strong> @payment.PaymentMethod</p>  <!-- Phương thức thanh toán -->
+                        <p><strong>Trạng Thái Thanh Toán:</strong> @payment.Status</p>  <!-- Trạng thái thanh toán -->
+                        <p><strong>Trạng Thái Đơn Hàng:</strong> @order.Status</p>  <!-- Trạng thái của đơn hàng (đang xử lý, đã giao, v.v.) -->
+                    </div>
+                </div>
+            </div>
+        </div>

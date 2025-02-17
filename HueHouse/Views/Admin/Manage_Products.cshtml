@@ -1,0 +1,97 @@
+﻿@model List<HueHouse.Models.ProductViewModel>
+
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="admin-main">
+    <div class="manage-products-page">
+        <h1><i class="fas fa-box-open"></i> Quản lý Sản Phẩm</h1>
+        <p>Quản lý tất cả các sản phẩm và thông tin liên quan</p>
+
+        <!-- Thêm sản phẩm mới -->
+        <div class="add-product">
+            <h1>Thêm Sản Phẩm</h1>
+            <form method="post" action="@Url.Action("AddProduct", "Admin")" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="ProductName">Tên sản phẩm:</label>
+                    <input type="text" class="form-control" id="ProductName" name="ProductName" required />
+                </div>
+                <div class="form-group">
+                    <label for="ProductImage">Hình ảnh:</label>
+                    <input type="file" class="form-control" id="ProductImage" name="ProductImage" />
+                </div>
+                <div class="form-group">
+                    <label for="Price">Giá:</label>
+                    <input type="number" class="form-control" id="Price" name="Price" required min="1" />
+                </div>
+                <div class="form-group">
+                    <label for="Description">Mô tả:</label>
+                    <textarea class="form-control" id="Description" name="Description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="CategoryID">Danh mục:</label>
+                    <select class="form-control-category" id="CategoryID" name="CategoryID" required>
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <option value="@category.CategoryID">@category.CategoryName</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+            </form>
+        </div>
+
+
+        <!-- Danh sách sản phẩm -->
+        <div class="product-table-container">
+            <!-- Tiêu đề -->
+            <h1>Danh Sách Sản Phẩm</h1>
+
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Hình ảnh</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Trạng thái</th>
+                        <th>Mô tả</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>@product.ProductName</td>
+                            <td><img src="/@product.ProductImage" alt="@product.ProductName" /></td>
+                            <td>@product.CategoryName</td>
+                            <td>@String.Format("{0:#,##0} VNĐ", product.Price)</td>
+                            <td>@product.Quantity</td>
+                            <td>@product.Status</td>
+                            <td>@product.Description</td> <!-- Hiển thị mô tả sản phẩm -->
+                            <td>
+                                <!-- Form cập nhật số lượng -->
+                                <form method="post" action="@Url.Action("UpdateQuantity", "Admin")" style="display:inline-block; margin-right: 10px;">
+                                    <input type="hidden" name="ProductID" value="@product.ProductID" />
+                                    <input type="number" class="form-control" name="Quantity" value="@product.Quantity" min="0" style="width: 80px; display:inline-block;" />
+                                    <button type="submit" class="btn btn-success">Cập nhật</button>
+                                </form>
+
+                                <!-- Nút xóa sản phẩm -->
+                                <form method="post" action="@Url.Action("DeleteProduct", "Admin")" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')" style="display:inline-block;">
+                                    <input type="hidden" name="ProductID" value="@product.ProductID" />
+                                    <button type="submit" class="btn btn-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

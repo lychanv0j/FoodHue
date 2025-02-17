@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; /* Kết nối với layout chung của trang admin */
+}
+
+<div class="admin-main">
+    <div class="dashboard-page">
+        <h1>Xin chào, 👤@Session["FullName"]</h1>
+        <p>Chào mừng bạn đến với trang quản lý hệ thống</p>
+        
+
+        <!-- Phần Thống Kê Dashboard -->
+        <div class="dashboard-stats">
+
+            <!-- Mục Người Dùng -->
+            <div class="stat-card">
+                <div class="stat-card-icon">
+                    <i class="fas fa-users"></i> <!-- Biểu tượng người dùng -->
+                </div>
+                <div class="stat-card-content">
+                    <h3>@ViewBag.UserCount</h3> <!-- Hiển thị số người dùng -->
+                    <p>Tổng số người dùng</p> <!-- Mô tả -->
+                </div>
+            </div>
+
+            <!-- Mục Đơn Hàng -->
+            <div class="stat-card">
+                <div class="stat-card-icon">
+                    <i class="fas fa-shopping-cart"></i> <!-- Biểu tượng giỏ hàng -->
+                </div>
+                <div class="stat-card-content">
+                    <h3>@ViewBag.OrderCount</h3> <!-- Hiển thị số đơn hàng -->
+                    <p>Tổng số đơn hàng</p> <!-- Mô tả -->
+                </div>
+            </div>
+
+            <!-- Mục Sản Phẩm -->
+            <div class="stat-card">
+                <div class="stat-card-icon">
+                    <i class="fas fa-box-open"></i> <!-- Biểu tượng sản phẩm -->
+                </div>
+                <div class="stat-card-content">
+                    <h3>@ViewBag.ProductCount</h3> <!-- Hiển thị số sản phẩm -->
+                    <p>Tổng số sản phẩm</p> <!-- Mô tả -->
+                </div>
+            </div>
+
+            <!-- Mục Doanh Thu -->
+            <div class="stat-card">
+                <div class="stat-card-icon">
+                    <i class="fas fa-dollar-sign"></i> <!-- Biểu tượng đồng tiền -->
+                </div>
+                <div class="stat-card-content">
+                    <h3>@ViewBag.TotalRevenue.ToString("N0")</h3> <!-- Hiển thị doanh thu với định dạng tiền tệ -->
+                    <p>Tổng doanh thu (VNĐ)</p> <!-- Mô tả -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Phần Hoạt Động Gần Đây -->
+        <div class="recent-activity">
+            <h2>Hoạt động gần đây</h2>
+            <div class="activity-list">
+                @if (ViewBag.AdminActivities is List<HueHouse.Models.AdminActivityViewModel> activities)
+                {
+                    foreach (var activity in activities)
+                    {
+                        <div class="activity-item">
+                            <p><strong>@activity.Action</strong> - @activity.DataType</p>
+                            <small>@activity.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>Không có hoạt động nào được ghi nhận.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

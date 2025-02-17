@@ -1,0 +1,109 @@
+﻿@model HueHouse.Models.Users
+
+@{
+    ViewBag.Title = "Thông Tin Cá Nhân";
+}
+
+
+<!-- Khối chứa toàn bộ nội dung trang thông tin cá nhân -->
+<div class="account-page">
+
+    <!-- Tiêu đề chính của trang -->
+    <h1>Thông Tin Hồ Sơ</h1>
+
+    <!-- Mô tả ngắn về mục đích trang -->
+    <h2>Quản lý thông tin cá nhân để bảo mật tài khoản của bạn</h2>
+
+    <!-- Khối chứa biểu mẫu chỉnh sửa thông tin -->
+    <div class="control-form-myaccount">
+
+        <!-- Gửi dữ liệu tới action My_Account trong controller Home -->
+        <form action="@Url.Action("My_Account", "Home")" method="post">
+
+            <!-- Bảo vệ ứng dụng chống lại các cuộc tấn công CSRF -->
+            @Html.AntiForgeryToken()
+
+            <!-- Họ Và Tên của Users -->
+            <label for="fullname">Họ và Tên:</label>
+            <input type="text" id="fullname" name="FullName" value="@Model.FullName" readonly>
+            <!-- Trường nhập họ và tên, chỉ hiển thị, không chỉnh sửa được -->
+
+
+            <!-- Giới tính -->
+            <!-- Khối chứa các tùy chọn giới tính -->
+            <div class="gender-selection">
+                <label for="sex">Giới Tính:</label>
+
+                <!-- Tùy chọn giới tính Nam -->
+                <div class="gender-option-edit">
+                    <input type="radio" id="nam" name="Sex" value="Nam" @(Model.Sex == "Nam" ? "checked" : "")>
+                    <!-- Nút radio cho giới tính Nam, tự động đánh dấu nếu giới tính là "Nam" -->
+                    <label for="nam">Nam</label>
+                </div>
+
+                <!-- Tùy chọn giới tính Nữ -->
+                <div class="gender-option-edit">
+                    <input type="radio" id="nu" name="Sex" value="Nữ" @(Model.Sex == "Nữ" ? "checked" : "")>
+                    <!-- Nút radio cho giới tính Nữ, tự động đánh dấu nếu giới tính là "Nữ" -->
+                    <label for="nu">Nữ</label>
+                </div>
+            </div>
+
+
+            <!-- Số điện thoại -->
+            <label for="phone">Số Điện Thoại:</label>
+            <input type="tel" id="phone" name="Phone" value="@Model.Phone" required>
+            <!-- Trường nhập số điện thoại, giá trị mặc định là số điện thoại của người dùng, 
+                 "Required" được dùng để nếu như người dùng lỡ xoá thông tin mà quên nhập lại
+                 thì "Required" sẽ yêu cầu người dùng điền thông tin cho đầy đủ -->
+
+
+            <!-- Địa chỉ -->
+            <label for="address">Địa Chỉ:</label>
+            <input type="text" id="address" name="Address" value="@Model.Address" required>
+            <!-- Trường nhập địa chỉ, giá trị mặc định là địa chỉ của người dùng -->
+
+
+            <!-- Email -->
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="Email" value="@Model.Email" required>
+            <!-- Trường nhập email, giá trị mặc định là địa chỉ của người dùng -->
+
+
+            <!-- Tên đăng nhập -->
+            <label for="username">Tên Đăng Nhập:</label>
+            <input type="text" id="username" name="UserName" value="@Model.Username" readonly>
+            <!-- Trường nhập tên đăng nhập, chỉ hiển thị, không chỉnh sửa được -->
+
+
+            <!-- Mật khẩu -->
+            <label for="password">Mật Khẩu Mới:</label>
+            <input type="password" id="password" name="Password" placeholder="Nhập mật khẩu mới (nếu muốn thay đổi)">
+            <!-- Trường nhập mật khẩu mới, không bắt buộc -->
+
+
+            <!-- Xác nhận mật khẩu -->
+            <label for="confirm-password">Xác Nhận Mật Khẩu:</label>
+            <input type="password" id="confirm-password" name="ConfirmPassword" placeholder="Nhập lại mật khẩu mới">
+            <!-- Trường nhập lại mật khẩu mới để xác nhận, không bắt buộc -->
+
+
+            <!-- Nút bấm để gửi biểu mẫu và lưu thay đổi thông tin cá nhân -->
+            <button type="submit" class="savechanges-button">Lưu Thay Đổi</button>
+
+
+            <!-- Hiển thị thông báo -->
+            <div class="update-notification">
+
+                <!-- Kiểm tra xem TempData["Message"] có giá trị hay không -->
+                @if (TempData["Message"] != null)
+                {
+
+                    <!-- Nếu có, hiển thị thông báo dưới dạng đoạn văn (paragraph) với nội dung từ TempData["Message"].
+                        Thông báo có thể bao gồm các trạng thái như "Cập nhật thành công" hoặc "Có lỗi xảy ra". -->
+                    <p class="notification-message">@TempData["Message"]</p>
+                }
+            </div>
+        </form>
+    </div>
+</div>

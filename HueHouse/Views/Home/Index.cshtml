@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Trang Chủ";
+}
+
+<div class="main">
+    <div class="background-index">
+        <div class="box-form">
+            <h2>
+                <span>Món Ăn Chất Lượng</span>
+                <br>
+                <span>Đậm Chất Xứ Huế</span>
+            </h2>
+            <p>
+                Chuyên cung cấp các món ăn đặc sản ẩm thực Huế.
+                <br> Mang đến cho khách hàng những món ăn ngon và phục vụ tuyệt vời nhất.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="index-page">
+
+        <!-- Món Ăn Bán Chạy -->
+        <!-- Tiêu đề phần "Món Ăn Bán Chạy" -->
+        <h1>Món Ăn Bán Chạy</h1>
+
+        <!-- Danh sách sản phẩm bán chạy -->
+        <div class="product-list">
+
+            <!-- Duyệt qua danh sách sản phẩm bán chạy từ ViewBag -->
+            @foreach (var product in ViewBag.TopSellingProducts)
+            {
+
+                <!-- Mỗi sản phẩm sẽ được hiển thị trong một div với class là product-item -->
+                <div class="product-item">
+
+                    <!-- Tạo liên kết đến trang chi tiết sản phẩm, truyền ID sản phẩm vào URL -->
+                    <a href="@Url.Action("Product_Details", "Home", new { id = product.ProductID })">
+
+                        <!-- Hiển thị hình ảnh của sản phẩm, lấy từ thuộc tính ProductImage của sản phẩm -->
+                        <img src="/@product.ProductImage" alt="@product.ProductName">
+
+                        <!-- Hiển thị tên sản phẩm -->
+                        <h3>@product.ProductName</h3>
+
+                        <!-- Hiển thị giá sản phẩm, định dạng theo kiểu VNĐ với dấu phân cách hàng nghìn -->
+                        <p class="price"><strong>@(string.Format("{0:#,##0} VNĐ", product.Price))</strong></p>
+                    </a>
+                </div>
+            }
+        </div>
+
+        <!-- Món Ăn Mới -->
+        <!-- Tiêu đề phần "Món Ăn Mới" -->
+        <h2>Món Ăn Mới</h2>
+
+        <!-- Danh sách sản phẩm mới -->
+        <div class="product-list">
+
+            <!-- Duyệt qua danh sách sản phẩm mới từ ViewBag -->
+            @foreach (var product in ViewBag.NewProducts)
+            {
+                <div class="product-item">
+                    <a href="@Url.Action("Product_Details", "Home", new { id = product.ProductID })">
+                        <img src="/@product.ProductImage" alt="@product.ProductName">
+                        <h3>@product.ProductName</h3>
+                        <p class="price"><strong>@(string.Format("{0:#,##0} VNĐ", product.Price))</strong></p>
+                    </a>
+                </div>
+            }
+        </div>
+
+        <!-- Món Ăn Hot Nhất Tháng -->
+        <!-- Tiêu đề phần "Món Ăn Hot Nhất Tháng" -->
+        <h2>Món Ăn Hot Nhất Tháng</h2>
+
+        <!-- Danh sách sản phẩm hot nhất -->
+        <div class="product-list">
+
+            <!-- Duyệt qua danh sách sản phẩm hot nhất từ ViewBag -->
+            @foreach (var product in ViewBag.HotProducts)
+            {
+                <div class="product-item">
+                    <a href="@Url.Action("Product_Details", "Home", new { id = product.ProductID })">
+                        <img src="/@product.ProductImage" alt="@product.ProductName">
+                        <h3>@product.ProductName</h3>
+                        <p class="price"><strong>@(string.Format("{0:#,##0} VNĐ", product.Price))</strong></p>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

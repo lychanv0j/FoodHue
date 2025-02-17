@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Lịch Sử Mua Hàng";
+    var orders = (List<HueHouse.Models.Orders>)ViewData["Orders"]; // Lấy danh sách đơn hàng từ ViewData
+}
+
+
+<div class="container">
+    <div class="orderhis-page">
+
+        <!-- Tiêu đề chính của trang -->
+        <h1>Lịch Sử Mua Hàng</h1>
+
+        @if (orders == null || !orders.Any()) // Kiểm tra xem có đơn hàng nào hay không
+        {
+            <div class="no-orders">
+
+                <!-- Hiển thị thông báo nếu không có đơn hàng -->
+                <p>Bạn chưa có đơn hàng nào trong lịch sử mua hàng.</p>
+
+                <!-- Link dẫn đến trang sản phẩm để khách hàng tiếp tục mua sắm -->
+                <a href="@Url.Action("Product", "Home")" class="btn btn-primary">Tiếp Tục Mua Sắm</a>
+            </div>
+        }
+        else
+        {
+            foreach (var order in orders) // Lặp qua từng đơn hàng trong danh sách
+            {
+                var orderDetails = order.OrderDetails;  // Lấy danh sách chi tiết sản phẩm của từng đơn hàng
+                <div class="order-card">
+                    <div class="order-header">
+
+                        <!-- Hiển thị ngày đặt hàng -->
+                        <p class="order-date">Ngày Đặt Hàng: @order.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                        <p class="order-status">
+
+                            Trạng Thái:
+                            <!-- Hiển thị trạng thái đơn hàng với màu sắc tương ứng -->
+                            <span class="badge
+                                @(order.Status == "Đã Giao" ? "bg-success" :
+                                  order.Status == "Huỷ Đơn" ? "bg-danger" :
+                                  order.Status == "Đổi, Trả Hàng" ? "bg-info" :
+                                  "bg-warning")">
+                                @order.Status
+                            </span>
+                        </p>
+                    </div>
+                    <div class="order-detail">
+
+                        <!-- Tiêu đề của phần chi tiết đơn hàng -->
+                        <h3>Chi Tiết Đơn Hàng:</h3>
+
+                        <div class="products-list">
+                            @foreach (var detail in orderDetails) // Lặp qua từng chi tiết sản phẩm trong đơn hàng
+                            {
+                                var product = detail.Products;  // Lấy thông tin sản phẩm từ chi tiết đơn hàng
+                                if (product != null) // Kiểm tra xem sản phẩm có tồn tại không
+                                {
+                                    <div class="products-item">
+                                        <div class="products-image">
+
+                                            <!-- Hiển thị hình ảnh sản phẩm -->
+                                            <img src="/@product.ProductImage" alt="@product.ProductName" />
+
+                                        </div>
+                                        <div class="products-info">
+
+                                            <!-- Tên sản phẩm -->
+                                            <h3>@product.ProductName</h3>
+
+                                            <!-- Số lượng sản phẩm -->
+                                            <p class="products-quantity">Số Lượng: @detail.Quantity</p>
+
+                                            <!-- Đơn giá sản phẩm -->
+                                            <p class="products-price">Đơn Giá: @String.Format("{0:#,##0} VNĐ", detail.Price)</p>
+
+                                            <!-- Tổng giá tiền cho sản phẩm này -->
+                                            <p class="products-total">Tổng: @String.Format("{0:#,##0} VNĐ", detail.Quantity * detail.Price)</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="order-total">
+                        <!-- Hiển thị tổng số tiền của đơn hàng -->
+                        <p><strong>Tổng Số Tiền:</strong> @String.Format("{0:#,##0} VNĐ", order.TotalAmount)</p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

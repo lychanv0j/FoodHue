@@ -1,0 +1,115 @@
+﻿@model List<HueHouse.Models.Cart>
+
+@{
+    ViewBag.Title = "Giỏ Hàng";
+}
+
+
+
+<div class="container">
+
+    <!-- Kiểm tra nếu giỏ hàng trống hoặc không có sản phẩm -->
+    @if (Model == null || !Model.Any())
+    {
+        <div class="main">
+            <div class="shopping-empty">
+
+                <!-- Hình ảnh và thông báo khi giỏ hàng trống -->
+                <img src="~/Content/Images/empty_cart.jpg" alt="Giỏ hàng trống" class="empty-cart-img">
+                <p class="empty-cart-text">
+                    Hiện tại bạn chưa có sản phẩm nào trong giỏ hàng. Hãy dạo một vòng <strong>Thực Đơn</strong> để chọn sản phẩm yêu thích nhé.
+                    <strong>Ẩm Thực Huế - HueHouse</strong> có nhiều món ngon lắm!
+                </p>
+                <a href="@Url.Action("Product", "Home")" class="btn-continue">
+                    Tiếp Tục Chọn Món
+                </a>
+            </div>
+        </div>
+    }
+    else  // Nếu giỏ hàng có sản phẩm
+    {
+        <div class="shopping-page">
+
+            <!-- Lớp bao ngoài phần giỏ hàng -->
+            <div class="shopping-cart">
+
+                <!-- Tiêu đề cho phần giỏ hàng -->
+                <h1>Giỏ Hàng Của Bạn</h1>
+
+                <table class="table">
+
+                    <!-- Tiêu đề bảng giỏ hàng -->
+                    <thead>
+                        <tr>
+                            <th>Hình Ảnh</th>  <!-- Cột Hình ảnh sản phẩm -->
+                            <th>Tên Sản Phẩm</th>  <!-- Cột Tên sản phẩm -->
+                            <th>Đơn Giá</th>  <!-- Cột Đơn giá -->
+                            <th>Số Lượng</th>  <!-- Cột Số lượng sản phẩm -->
+                            <th>Tổng Tiền</th>  <!-- Cột Tổng tiền -->
+                            <th></th>  <!-- Cột chức năng (ví dụ: xóa sản phẩm) -->
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- Lặp qua từng sản phẩm trong giỏ hàng -->
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <!-- Hiển thị hình ảnh sản phẩm -->
+                                <td><img src="~/@item.ProductImage" alt="@item.ProductName" class="product-img" /></td>
+
+                                <!-- Hiển thị tên sản phẩm -->
+                                <td>@item.ProductName</td>
+
+                                <!-- Hiển thị đơn giá sản phẩm -->
+                                <td>@(string.Format("{0:#,##0} VNĐ", item.Price))</td>
+                                <td>
+                                    <div class="quantity-control">
+
+                                        <!-- Form để giảm số lượng sản phẩm -->
+                                        <form action="@Url.Action("UpdateQuantity", "Home")" method="post" class="quantity-form">
+                                            <input type="hidden" name="cartId" value="@item.CartID" /> <!-- ID của sản phẩm trong giỏ -->
+                                            <input type="hidden" name="actionType" value="decrease" /> <!-- Hành động giảm số lượng -->
+                                            <button type="submit" class="btn-quantity">-</button> <!-- Nút giảm số lượng -->
+                                        </form>
+
+                                        <!-- Hiển thị số lượng sản phẩm trong giỏ -->
+                                        <span class="product-quantity">@item.Quantity</span>
+
+                                        <!-- Form để tăng số lượng sản phẩm -->
+                                        <form action="@Url.Action("UpdateQuantity", "Home")" method="post" class="quantity-form">
+                                            <input type="hidden" name="cartId" value="@item.CartID" /> <!-- ID của sản phẩm trong giỏ -->
+                                            <input type="hidden" name="actionType" value="increase" /> <!-- Hành động tăng số lượng -->
+                                            <button type="submit" class="btn-quantity">+</button> <!-- Nút tăng số lượng -->
+                                        </form>
+                                    </div>
+                                </td>
+
+                                <!-- Hiển thị tổng tiền cho sản phẩm (Đơn giá * Số lượng) -->
+                                <td>@(string.Format("{0:#,##0} VNĐ", item.TotalAmount))</td>
+                                <td>
+
+                                    <!-- Form để xóa sản phẩm khỏi giỏ hàng -->
+                                    <form action="@Url.Action("RemoveFromCart", "Home")" method="post">
+                                        <input type="hidden" name="cartItemId" value="@item.CartID" />  <!-- ID của sản phẩm trong giỏ -->
+                                        <button type="submit" class="btn btn-danger">Xóa</button>  <!-- Nút xóa sản phẩm -->
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Phần tổng cộng giỏ hàng -->
+                <div class="cart-summary cart-summary-shopping">
+                    <!-- Hiển thị tổng số tiền của tất cả sản phẩm trong giỏ hàng -->
+                    <h2>Tổng Tiền: @(string.Format("{0:#,##0} VNĐ", Model.Sum(i => i.TotalAmount)))</h2>
+
+                    <!-- Nút chuyển đến trang thông tin đặt hàng -->
+                    <a href="@Url.Action("Checkout", "Home")" class="btn btn-checkout">Đặt Hàng</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
